@@ -1,0 +1,1 @@
+("~/repos/linux-stable/" "~/repos/dotfiles/")
