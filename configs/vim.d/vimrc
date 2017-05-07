@@ -1,0 +1,68 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+syntax on
+set number
+set exrc
+set secure
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab
+set colorcolumn=110
+highlight ColorColumn ctermbg=darkgray
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" nerdtree
+Plugin 'scrooloose/nerdtree'
+" fugitive git plugin
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'scrooloose/syntastic'
+
+Plugin 'tpope/vim-surround'
+
+Plugin 'altercation/vim-colors-solarized'
+
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'valloric/youcompleteme'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" nerdtree stuff
+"
+" open nerdtree on empty vim
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" open nerdtree if vim tries to open a directory
+"
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close vim if nerdtree is the only window
+ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"open nerdtree with cmd+n 
+"
+map <C-n> :NERDTreeToggle<CR>
+
+"end nerdtree
+"
+"syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"end syntastic
+

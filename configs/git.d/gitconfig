@@ -1,0 +1,35 @@
+[diff]
+	tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+[merge]
+	tool = mymeld
+	conflictstyle = diff3
+[mergetool "mymeld"]
+    cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $MERGED $REMOTE
+[credential]
+	helper = store
+[core]
+	editor = vi
+[commit]
+	editor = vi
+[alias]
+	ds = diff --cached
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	s = status
+	a = add
+	ci = commit
+	mt = mergetool
+	ri = rebase -i
+	dt = difftool
+	lo = log --oneline
+	b = branch
+	ba = branch -a
+	cb = checkout -b
+	t = tag
+	d = diff
+	co = checkout
+	dc = checkout --
+	rsh = reset HEAD
