@@ -47,16 +47,21 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
-     ;; better-defaults
+     (auto-completion
+      :variables
+      auto-completion-enable-snippets-in-popup t
+      auto-completion-return-key-behavior nil
+      auto-completion-tab-key-behavior 'cycle
+      auto-completion-enable-help-tooltip 'manual
+      :disabled-for org erc)
+     better-defaults
      emacs-lisp
      c-c++
      git
      markdown
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+             shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
@@ -336,7 +341,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
       (python . t)
       (R . t)
       )
-    )
+   )
+  ;; Shell
+  shell-default-term-shell "/bin/bash" 
  )
 
 (defun dotspacemacs/user-config ()
@@ -351,8 +358,10 @@ you should place your code here."
   (setq-default fill-column 110)
   (setq fci-rule-color "red")
   (setq fci-rule-width 3)
-  (turn-on-fci-mode)
-  (spacemacs/add-to-hooks 'turn-on-fci-mode '(text-mode-hook))
+  ;; Activate column indicator in prog-mode and text-mode, except for org-mode
+  (add-hook 'prog-mode-hook 'turn-on-fci-mode)
+  (add-hook 'text-mode-hook 'turn-on-fci-mode)
+  (add-hook 'org-mode-hook 'turn-off-fci-mode 'append)
   )
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 (load custom-file 'no-error 'no-message)
