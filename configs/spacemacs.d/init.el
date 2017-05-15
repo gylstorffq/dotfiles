@@ -60,6 +60,7 @@ values."
      git
      markdown
      org
+     ess
      (shell :variables
              shell-default-position 'bottom)
      spell-checking
@@ -340,10 +341,12 @@ before packages are loaded. If you are unsure, you should try in setting them in
    '( (C . t)
       (python . t)
       (R . t)
+      (plantuml . t)
       )
    )
-  ;; Shell
-  shell-default-term-shell "/bin/bash" 
+
+  (setq org-plantuml-jar-path
+        (expand-file-name "/opt/plantuml/plantuml.1.2017.13.jar"))
  )
 
 (defun dotspacemacs/user-config ()
@@ -362,6 +365,7 @@ you should place your code here."
   (add-hook 'prog-mode-hook 'turn-on-fci-mode)
   (add-hook 'text-mode-hook 'turn-on-fci-mode)
   (add-hook 'org-mode-hook 'turn-off-fci-mode 'append)
+
   )
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 (load custom-file 'no-error 'no-message)
