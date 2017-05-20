@@ -49,7 +49,7 @@ values."
      (auto-completion
       :variables
       auto-completion-enable-snippets-in-popup t
-      auto-completion-return-key-behavior nil
+      auto-completion-return-key-behavior 'complete
       auto-completion-tab-key-behavior 'cycle
       auto-completion-enable-help-tooltip 'manual
       :disabled-for org erc)
