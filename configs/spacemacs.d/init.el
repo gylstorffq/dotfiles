@@ -373,6 +373,14 @@ you should place your code here."
   (add-hook 'prog-mode-hook 'turn-on-fci-mode)
   (add-hook 'text-mode-hook 'turn-on-fci-mode)
   (add-hook 'org-mode-hook 'turn-off-fci-mode 'append)
+  ; allow helm dir-locals.el
+  (put 'helm-make-build-dir 'safe-local-variable 'stringp)
+  ;(put 'projectile-project-compilation-cmd 'safe-local-variable 'stringp)
+  (put 'projectile-project-compilation-cmd 'safe-local-variable
+       (lambda (a) (and (stringp a) (or (not (boundp 'compilation-read-command))
+                                        compilation-read-command))))
+
+  ;; org settings
   (with-eval-after-load 'org
     (setq org-directory "~/Dropbox/notes/")
     (unless (file-exists-p org-directory)
