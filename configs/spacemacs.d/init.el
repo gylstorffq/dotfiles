@@ -67,7 +67,7 @@ values."
      markdown
      (org 
           :variables
-          org-projectile-file "~/Dropbox/notes/TODOs.org")
+          org-projectile-file "~/notes/TODOs.org")
      ess ;; R support
      go
      python
@@ -382,7 +382,7 @@ you should place your code here."
 
   ;; org settings
   (with-eval-after-load 'org
-    (setq org-directory "~/Dropbox/notes/")
+    (setq org-directory "~/notes/")
     (unless (file-exists-p org-directory)
       (make-directory org-directory))
     ;; Open .asc/.gpg files with decrypt/encrypt magic
