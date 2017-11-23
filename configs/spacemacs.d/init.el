@@ -66,7 +66,8 @@ values."
      emacs-lisp
      c-c++
      markdown
-     (org 
+     (org
+          :eval-after-load
           :variables
           org-projectile-file "~/notes/TODOs.org")
      ess ;; R support
@@ -339,24 +340,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;; workaround start with scratch
  ;; (when (string= "*scratch*" (buffer-name))
  ;;   (spacemacs/switch-to-scratch-buffer))
-    ;; org-babel
-  (require 'ob-python)
-  (require 'ob-R)
-  (require 'ob-latex)
-  (require 'ob-plantuml)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '( (C . t)
-      (python . t)
-      (R . t)
-      (plantuml . t)
-      (latex . t)
-      )
-   )
-
-  (setq org-plantuml-jar-path
-        (expand-file-name "/opt/plantuml/plantuml.1.2017.13.jar"))
-)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -380,10 +364,16 @@ you should place your code here."
   (put 'projectile-project-compilation-cmd 'safe-local-variable
        (lambda (a) (and (stringp a) (or (not (boundp 'compilation-read-command))
                                         compilation-read-command))))
-
+  (require 'ob-python)
+  (require 'ob-R)
+  (require 'ob-dot)
+  (require 'ob-latex)
+  (require 'ob-plantuml)
+  (setq org-plantuml-jar-path
+        (expand-file-name "/opt/plantuml/plantuml.1.2017.13.jar"))
   ;; org settings
   (with-eval-after-load 'org
-    (setq org-directory "~/notes/")
+   (setq org-directory "~/notes/")
     (unless (file-exists-p org-directory)
       (make-directory org-directory))
     ;; Open .asc/.gpg files with decrypt/encrypt magic
@@ -393,7 +383,18 @@ you should place your code here."
          epa-armor t)
     (setq epa-file-select-keys nil)
     (epa-file-name-regexp-update)
-    )
+    ;; org-babel
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '( (C . t)
+        (python . t)
+        (R . t)
+        (dot . t)
+        (plantuml . t)
+        (latex . t)
+        )
+     )
+	)
 )
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 (load custom-file 'no-error 'no-message)
