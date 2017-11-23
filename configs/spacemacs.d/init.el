@@ -371,6 +371,8 @@ you should place your code here."
   (require 'ob-plantuml)
   (setq org-plantuml-jar-path
         (expand-file-name "/opt/plantuml/plantuml.1.2017.13.jar"))
+  (setq org-agenda-files (list "~/notes/TODOs.org"
+                               "~/notes/notes/TODOs.org"))
   ;; org settings
   (with-eval-after-load 'org
    (setq org-directory "~/notes/")
