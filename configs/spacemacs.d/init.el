@@ -365,12 +365,11 @@ you should place your code here."
        (lambda (a) (and (stringp a) (or (not (boundp 'compilation-read-command))
                                         compilation-read-command))))
   (require 'ob-python)
-  (require 'ob-R)
   (require 'ob-dot)
   (require 'ob-latex)
   (require 'ob-plantuml)
   (setq org-plantuml-jar-path
-        (expand-file-name "/opt/plantuml/plantuml.1.2017.13.jar"))
+        (expand-file-name "~/.tools/plantuml/plantuml.jar"))
   (setq org-agenda-files (list "~/notes/TODOs.org"
                                "~/notes/notes/TODOs.org"))
   ;; org settings
