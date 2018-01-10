@@ -31,6 +31,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     javascript
+     windows-scripts
      ruby
      ;; ----------------------------------------------------------------
      ;; make basic to full blown spacemacs 
