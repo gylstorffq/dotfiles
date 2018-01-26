@@ -56,6 +56,7 @@ values."
       auto-completion-tab-key-behavior 'cycle
       auto-completion-enable-help-tooltip 'manual
       :disabled-for org erc)
+     gtags
      better-defaults
      git
     (shell :variables
