@@ -62,6 +62,7 @@ values."
     (shell :variables
              shell-default-position 'bottom)
      spell-checking
+     docker
      syntax-checking
      version-control
      ;; ----------------------------------------------------------------
@@ -367,7 +368,6 @@ you should place your code here."
   (put 'projectile-project-compilation-cmd 'safe-local-variable
        (lambda (a) (and (stringp a) (or (not (boundp 'compilation-read-command))
                                         compilation-read-command))))
-  (require 'ob-python)
   (require 'ob-dot)
   (require 'ob-latex)
   (require 'ob-plantuml)
@@ -377,6 +377,7 @@ you should place your code here."
                                "~/notes/notes/TODOs.org"))
   ;; org settings
   (with-eval-after-load 'org
+   (org-defkey org-mode-map [(meta return)] 'org-meta-return)
    (setq org-directory "~/notes/")
     (unless (file-exists-p org-directory)
       (make-directory org-directory))
@@ -388,6 +389,11 @@ you should place your code here."
     (setq epa-file-select-keys nil)
     (epa-file-name-regexp-update)
     ;; org-babel
+    (add-hook 'org-mode-hook (lambda()
+                               (define-key
+                                 evil-normal-state-local-map
+                                 (kbd "M-RET")
+                                 #'org-meta-return)))
     (org-babel-do-load-languages
      'org-babel-load-languages
      '( (C . t)
@@ -396,6 +402,7 @@ you should place your code here."
         (dot . t)
         (plantuml . t)
         (latex . t)
+        (shell . t)
         )
      )
 	)
