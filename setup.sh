@@ -1,4 +1,9 @@
 #!/bin/sh
+
+MY_DOTFILES_DIR="$( cd "$( dirname "$0" )" && pwd )"
+# my gitconfig
+cp $MY_DOTFILES_DIR/configs/git.d/gitconfig $HOME/.gitconfig
+
 # english keyboard layout
 ubuntu_codename=$(lsb_release -a | sed -n -e 's/^.*Codename:\t//p')
 sudo sed -ie '/^XKBLAYOUT=/s/".*"/"us"/' /etc/default/keyboard
