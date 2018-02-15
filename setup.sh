@@ -29,7 +29,7 @@ tar -xzf $TMUX_TARBALL
 cd $TMUX_VERSION
 ./configure
 make -s
-sudo checkinstall
+sudo -E checkinstall --default
 
 # use my own tmux config
 if [ -d $MY_DOTFILES_DIR ]
