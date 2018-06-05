@@ -398,7 +398,6 @@ you should place your code here."
      'org-babel-load-languages
      '( (C . t)
         (python . t)
-        (R . t)
         (dot . t)
         (plantuml . t)
         (latex . t)
