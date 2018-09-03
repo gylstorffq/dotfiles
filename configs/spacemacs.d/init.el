@@ -77,6 +77,7 @@ values."
           org-projectile-file "~/notes/TODOs.org")
      ess ;; R support
      go
+     plantuml
      python
      )
    ;; List of additional packages that will be installed without being
@@ -374,6 +375,10 @@ you should place your code here."
   (require 'ob-plantuml)
   (setq org-plantuml-jar-path
         (expand-file-name "~/.tools/plantuml/plantuml.jar"))
+  (setq plantuml-jar-path
+        (expand-file-name "~/.tools/plantuml/plantuml.jar"))
+
+
   (setq org-agenda-files (list "~/notes/TODOs.org"
                                "~/notes/notes/TODOs.org"))
   ;; org settings
