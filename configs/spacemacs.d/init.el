@@ -66,6 +66,7 @@ values."
      syntax-checking
      version-control
      tmux
+     pandoc
      ;; ----------------------------------------------------------------
      ;; language
      emacs-lisp
