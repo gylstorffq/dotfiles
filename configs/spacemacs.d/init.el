@@ -65,6 +65,7 @@ values."
      docker
      syntax-checking
      version-control
+     tmux
      ;; ----------------------------------------------------------------
      ;; language
      emacs-lisp
