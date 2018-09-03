@@ -85,7 +85,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(solarized-theme
-                                      )
+                                      bitbake)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -411,6 +411,11 @@ you should place your code here."
         )
      )
 	)
-)
+  (setq auto-mode-alist (cons '("\\.bb$" . bitbake-mode) auto-mode-alist))
+  (setq auto-mode-alist (cons '("\\.inc$" . bitbake-mode) auto-mode-alist))
+  (setq auto-mode-alist (cons '("\\.bbappend$" . bitbake-mode) auto-mode-alist))
+  (setq auto-mode-alist (cons '("\\.bbclass$" . bitbake-mode) auto-mode-alist))
+  (setq auto-mode-alist (cons '("\\.conf$" . bitbake-mode) auto-mode-alist))
+  )
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 (load custom-file 'no-error 'no-message)
