@@ -417,6 +417,40 @@ you should place your code here."
   (setq auto-mode-alist (cons '("\\.bbappend$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.bbclass$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.conf$" . bitbake-mode) auto-mode-alist))
+
+  (add-hook
+   'term-mode-hook
+   '(lambda()
+      (yas-minor-mode -1 )
+
+      (define-key evil-insert-state-local-map   (kbd "C-y")  'term-paste )
+      (define-key evil-insert-state-local-map   (kbd "C-v")  'term-paste )
+      (define-key evil-insert-state-local-map   (kbd "s-v")  'term-paste )
+      (define-key evil-insert-state-local-map   (kbd "C-c")  'copy-region-or-whole-line  )
+      (define-key evil-insert-state-local-map   (kbd "C-S-c")  'term-interrupt-subjob   )
+      (define-key evil-insert-state-local-map   (kbd "C-p")  'term-send-raw)
+      (define-key evil-insert-state-local-map   (kbd "C-n")  'term-send-raw)
+      (define-key evil-insert-state-local-map   (kbd "C-a")  'term-send-raw)
+      (define-key evil-insert-state-local-map   (kbd "C-e")  'term-send-raw)
+      (define-key evil-insert-state-local-map   (kbd "C-r")  'term-send-raw)
+
+      (setq term-unbind-key-list  '("C-x"))
+      (setq term-bind-key-alist nil)
+
+      (add-to-list 'term-bind-key-alist '("M-1" .  delete-other-windows ))
+      (add-to-list 'term-bind-key-alist '("s-1" .  delete-other-windows ))
+
+      (add-to-list 'term-bind-key-alist '("M-x" .  helm-M-x ))
+      (add-to-list 'term-bind-key-alist '("s-x" .  helm-M-x ))
+      (add-to-list 'term-bind-key-alist '("C-^" .  helm-mini ))
+      (add-to-list 'term-bind-key-alist '( "C-6". (lambda() (interactive)  (term-send-raw-string "\C-^" ) ) ))
+      (add-to-list 'term-bind-key-alist '( "C-S-t". (lambda() (interactive) (multi-term)  ) ))
+      (add-to-list 'term-bind-key-alist '( "C-S-h". (lambda() (interactive) (multi-term-prev 1 )   ) ))
+      (add-to-list 'term-bind-key-alist '( "C-S-l". (lambda() (interactive) ( multi-term-next 1 )   ) ))
+      (add-to-list 'term-bind-key-alist '( "C-S-w". my-join-line  ))
+      (add-to-list 'term-bind-key-alist '( "M-w". copy-region-or-whole-line ))
+      (add-to-list 'term-bind-key-alist '( "s-w". copy-region-or-whole-line ))
+      ))
   )
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 (load custom-file 'no-error 'no-message)
