@@ -385,6 +385,7 @@ you should place your code here."
   ;; org settings
   (with-eval-after-load 'org
    (org-defkey org-mode-map [(meta return)] 'org-meta-return)
+   (setq org-src-fontify-natively t)
    (setq org-directory "~/notes/")
     (unless (file-exists-p org-directory)
       (make-directory org-directory))
