@@ -358,7 +358,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; fci line delimiter
   (global-hl-line-mode -1)
-  (setq-default fill-column 110)
+  (setq-default fill-column 99)
   (setq fci-rule-color "red")
   (setq fci-rule-width 3)
   ;; Activate column indicator in prog-mode and text-mode, except for org-mode
