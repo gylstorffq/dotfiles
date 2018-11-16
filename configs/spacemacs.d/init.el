@@ -427,7 +427,7 @@ you should place your code here."
       (define-key evil-insert-state-local-map   (kbd "C-y")  'term-paste )
       (define-key evil-insert-state-local-map   (kbd "C-v")  'term-paste )
       (define-key evil-insert-state-local-map   (kbd "s-v")  'term-paste )
-      (define-key evil-insert-state-local-map   (kbd "C-c")  'copy-region-or-whole-line  )
+      (define-key evil-insert-state-local-map   (kbd "C-c")  'term-send-raw  )
       (define-key evil-insert-state-local-map   (kbd "C-S-c")  'term-interrupt-subjob   )
       (define-key evil-insert-state-local-map   (kbd "C-p")  'term-send-raw)
       (define-key evil-insert-state-local-map   (kbd "C-n")  'term-send-raw)
