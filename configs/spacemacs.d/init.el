@@ -419,6 +419,8 @@ you should place your code here."
   (setq auto-mode-alist (cons '("\\.bbclass$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.conf$" . bitbake-mode) auto-mode-alist))
 
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
+
   (add-hook
    'term-mode-hook
    '(lambda()
