@@ -458,6 +458,10 @@ you should place your code here."
       ))
   (openwith-mode t)
   (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+
+  (global-set-key (kbd "C-c s t") '(lambda ()
+                                   (interactive)
+                                   (call-process "terminator" nil 0 nil)))
   )
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 (load custom-file 'no-error 'no-message)
