@@ -60,7 +60,7 @@ values."
      better-defaults
      git
     (shell :variables
-             shell-default-position 'bottom)
+             shell-default-position 'full)
      spell-checking
      docker
      syntax-checking
