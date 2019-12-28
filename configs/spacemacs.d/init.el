@@ -31,6 +31,12 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
+     rust
+     ansible
+     asciidoc
+     lua
+     yaml
      javascript
      windows-scripts
      ruby
@@ -75,12 +81,13 @@ values."
      (org
           :eval-after-load
           :variables
-          org-projectile-file "~/notes/TODOs.org")
+          org-projectile-file "~/03_notes/TODOs.org")
      ess ;; R support
      go
      plantuml
      python
      latex
+     json
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -162,7 +169,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(solarized-dark
-                         sloarized-light
+                         solarized-light
                          spacemacs-dark
                          spacemacs-light
                          )
@@ -381,14 +388,15 @@ you should place your code here."
   (setq plantuml-jar-path
         (expand-file-name "~/.tools/plantuml/plantuml.jar"))
 
-
-  (setq org-agenda-files (list "~/notes/TODOs.org"
-                               "~/notes/notes/TODOs.org"))
+  (setq projectile-project-search-path '("~/01_projects/"
+                                         "~/02_repos/"
+                                         "~/03_notes/"))
+  (setq org-agenda-files (list "~/03_notes/TODOs.org"))
   ;; org settings
   (with-eval-after-load 'org
    (org-defkey org-mode-map [(meta return)] 'org-meta-return)
    (setq org-src-fontify-natively t)
-   (setq org-directory "~/notes/")
+   (setq org-directory "~/03_notes/")
     (unless (file-exists-p org-directory)
       (make-directory org-directory))
     ;; Open .asc/.gpg files with decrypt/encrypt magic
@@ -420,7 +428,25 @@ you should place your code here."
   (setq auto-mode-alist (cons '("\\.bbappend$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.bbclass$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.conf$" . bitbake-mode) auto-mode-alist))
+  ;; Bind clang-format-region to C-M-tab in all modes:
+  (global-set-key [C-M-tab] 'clang-format-region)
+  ;; Bind clang-format-buffer to tab on the c and c++-mode only:
+  (add-hook 'c-mode-hook 'c-clang-format-bindings)
+  (add-hook 'c++-mode-hook 'clang-format-bindings)
+  (defun clang-format-bindings ()
+    (define-key c++-mode-map [tab] 'clang-format-buffer))
 
+  (defun c-clang-format-bindings ()
+    (define-key c-mode-map [tab] 'clang-format-buffer))
+
+  ;;delete a tab size space when press DEL
+  (global-set-key (kbd "DEL") 'backward-delete-char)
+
+  ;;add a space behind ", "
+  (global-set-key (kbd ",")
+                  #'(lambda ()
+                      (interactive)
+                      (insert ", ")))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
 
   (add-hook
@@ -457,7 +483,7 @@ you should place your code here."
       (add-to-list 'term-bind-key-alist '( "s-w". copy-region-or-whole-line ))
       ))
   (openwith-mode t)
-  (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+  (setq openwith-associations '(("\\.pdf\\'" "okular" (file))))
 
   (global-set-key (kbd "C-c s t") '(lambda ()
                                    (interactive)
