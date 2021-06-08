@@ -2,7 +2,6 @@
 
 MY_DOTFILES_DIR="$( cd "$( dirname "$0" )" && pwd )"
 # my gitconfig
-cp $MY_DOTFILES_DIR/configs/git.d/gitconfig $HOME/.gitconfig
 
 # english keyboard layout
 ubuntu_codename=$(lsb_release -a | sed -n -e 's/^.*Codename:\t//p')
@@ -19,26 +18,6 @@ echo "add groups"
 sudo usermod -a -G tty $USER
 sudo usermod -a -G dialout $USER
 
-echo "tmux"
-sudo apt-get -y build-dep tmux
-cd $HOME/Downloads
-TMUX_VERSION=tmux-2.3
-TMUX_TARBALL=$TMUX_VERSION.tar.gz
-wget --no-check-certificate https://github.com/tmux/tmux/releases/download/2.3/$TMUX_TARBALL
-tar -xzf $TMUX_TARBALL
-cd $TMUX_VERSION
-./configure
-make -s
-sudo -E checkinstall --default
-
-# use my own tmux config
-if [ -d $MY_DOTFILES_DIR ]
-then
-    if [ ! -L $HOME/.tmux.conf ]
-	then
-        ln -s $MY_DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
-	fi
-fi
 #bash-it own config
 echo "bash-it"
 if [ ! -d $HOME/.bash_it ]
@@ -70,7 +49,7 @@ then
 fi
 # gtags
 cd $HOME/Downloads
-GLOBAL=global-6.6.1
+GLOBAL=global-6.6.3
 GLOBAL_TARBALL=$GLOBAL.tar.gz
 wget --no-check-certificate https://ftp.gnu.org/pub/gnu/global/$GLOBAL_TARBALL
 tar -xzf $GLOBAL_TARBALL

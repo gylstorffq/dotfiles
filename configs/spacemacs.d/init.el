@@ -10,7 +10,7 @@ values."
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
-   dotspacemacs-distribution 'spacemacs-base
+   dotspacemacs-distribution 'spacemacs
    ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     systemd
      html
      rust
      ansible
@@ -40,18 +41,6 @@ values."
      javascript
      windows-scripts
      ruby
-     ;; ----------------------------------------------------------------
-     ;; make basic to full blown spacemacs 
-     spacemacs-completion
-     spacemacs-layouts
-     spacemacs-editing
-     spacemacs-editing-visual
-     spacemacs-evil
-     spacemacs-language
-     spacemacs-misc
-     spacemacs-ui
-     spacemacs-ui-visual
-     spacemacs-org
      ;; ----------------------------------------------------------------
      ;; tools
      helm
@@ -73,6 +62,9 @@ values."
      version-control
      tmux
      pandoc
+     (mu4e :variables
+           mu4e-enable-async-operations t
+           mu4e-use-maildirs-extension t)
      ;; ----------------------------------------------------------------
      ;; language
      emacs-lisp
@@ -87,15 +79,18 @@ values."
      plantuml
      python
      latex
-     json
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(solarized-theme
+                                      monokai-theme
                                       bitbake
-                                      openwith)
+                                      openwith
+                                      editorconfig
+                                      fill-column-indicator
+                                      bats-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -118,7 +113,7 @@ values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
-   dotspacemacs-default-theme 'solarized-dark
+   dotspacemacs-default-theme 'solarized-dark-high-contrast
    ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
    ;; environment, otherwise it is strongly recommended to let it set to t.
@@ -169,15 +164,17 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(solarized-dark
-                         solarized-light
                          spacemacs-dark
+                         monokai
+                         solarized-light
                          spacemacs-light
                          )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Hack"
+   dotspacemacs-default-font '(;;"Hack"
+                               "JetBrains Mono"
                                ;;:size 22
                                :weight normal
                                :width normal
@@ -365,8 +362,8 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (setenv "LANG" "en_US")
   ;; fci line delimiter
-  (global-hl-line-mode -1)
   (setq-default fill-column 99)
   (setq fci-rule-color "red")
   (setq fci-rule-width 3)
@@ -390,11 +387,17 @@ you should place your code here."
 
   (setq projectile-project-search-path '("~/01_projects/"
                                          "~/02_repos/"
-                                         "~/03_notes/"))
+                                         ))
   (setq org-agenda-files (list "~/03_notes/TODOs.org"))
   ;; org settings
   (with-eval-after-load 'org
-   (org-defkey org-mode-map [(meta return)] 'org-meta-return)
+    (defun no-linum (&rest ignore)
+      (when (or 'linum-mode global-linum-mode)
+        (linum-mode 0)))
+    (spacemacs/add-to-hooks 'no-linum '(org-mode-hook))
+    ;; turn off fill column indicator in org-mode
+    (spacemacs/add-to-hooks 'turn-off-fci-mode '(org-mode-hook))
+    (org-defkey org-mode-map [(meta return)] 'org-meta-return)
    (setq org-src-fontify-natively t)
    (setq org-directory "~/03_notes/")
     (unless (file-exists-p org-directory)
@@ -422,7 +425,18 @@ you should place your code here."
         (shell . t)
         )
      )
-	)
+	  )
+  ;; mu4e
+  (setq mu4e-maildir "~/mail"
+        mu4e-trash-folder "/Trash"
+        mu4e-refile-folder "/Archive"
+        mu4e-get-mail-command "offlineimap" 
+        mu4e-update-interval 300
+        mu4e-compose-signature-auto-include nil
+        mu4e-sent-messages-behavior 'delete
+        mu4e-view-show-images t
+        mu4e-view-show-addresses t)
+  ;; bitbake
   (setq auto-mode-alist (cons '("\\.bb$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.inc$" . bitbake-mode) auto-mode-alist))
   (setq auto-mode-alist (cons '("\\.bbappend$" . bitbake-mode) auto-mode-alist))
@@ -441,6 +455,15 @@ you should place your code here."
 
   ;;delete a tab size space when press DEL
   (global-set-key (kbd "DEL") 'backward-delete-char)
+  ;; prevent getting into insert mode permanently (which ends up causing `d` to
+  ;; act like `dd`.
+  (defun kill-minibuffer ()
+    (interactive)
+    (when (windowp (active-minibuffer-window))
+      (evil-ex-search-exit)))
+
+  (add-hook 'mouse-leave-buffer-hook #'kill-minibuffer)
+
 
   ;;add a space behind ", "
   (global-set-key (kbd ",")
